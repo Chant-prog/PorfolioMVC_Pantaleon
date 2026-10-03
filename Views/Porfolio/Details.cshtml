@@ -1,0 +1,114 @@
+﻿@model ModernPortfolio.Models.Project
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container details-container">
+
+    <a asp-action="Index" class="back-link">
+        ← Back to Projects
+    </a>
+
+    <div class="details-card">
+
+        <img src="@Model.ImageUrl"
+             class="details-image"
+             alt="@Model.Title">
+
+        <div class="details-content">
+
+            <p class="hero-label">PROJECT DETAILS</p>
+
+            <h1>@Model.Title</h1>
+
+            <p class="details-description">
+                @Model.FullDescription
+            </p>
+
+            <h4>Technologies Used</h4>
+
+            <p>
+                @Model.Technologies
+            </p>
+
+            <a href="@Model.GithubUrl"
+               target="_blank"
+               class="btn btn-primary">
+                View GitHub Repository
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="comments-section">
+
+        <h2>Comments</h2>
+
+        <form asp-action="AddComment" method="post">
+
+            <input type="hidden"
+                   name="projectId"
+                   value="@Model.Id" />
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Your Name
+                </label>
+
+                <input type="text"
+                       name="name"
+                       class="form-control"
+                       placeholder="Enter your name"
+                       required />
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Comment
+                </label>
+
+                <textarea name="message"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Write a comment..."
+                          required></textarea>
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Post Comment
+            </button>
+
+        </form>
+
+        <hr />
+
+        @if (ViewBag.Comments != null)
+        {
+            foreach (var comment in ViewBag.Comments)
+            {
+                <div class="comment">
+
+                    <strong>@comment.Name</strong>
+
+                    <small>
+                        @comment.DatePosted.ToString("MMM dd, yyyy")
+                    </small>
+
+                    <p>
+                        @comment.Message
+                    </p>
+
+                </div>
+            }
+        }
+
+    </div>
+
+</div>
